@@ -12,9 +12,35 @@ from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.losses import MeanSquaredError
 
 '''
-    File name: JimmyNewTron.py
-    Author: xenago (thanks to peterhogg https://github.com/peterhogg/tron)
-    Python Version: 3.6
+    File name: audricTron.py
+    Author: Audric Girondin (https://github.com/aaudric), inspired from xenago (thanks to peterhogg https://github.com/peterhogg/tron)
+    Python Version: 3.9.18
+    Using Keras
+
+    Update: model trained with Keras and  the players are more agressive than the first version.
+'''
+
+'''
+    HOW TO ADJUST GAME OPTIONS:
+
+    - mode: choose the control method for each player.
+        keyboard        (use WASD for p1 and arrows for p2)
+        random          (player moves randomly)
+        ai_load_trained (loads model from disk and uses it to make movement decisions)
+        ai_retrain      (same as ai_load_trained, but it also uses the games to retrain the model)
+        ai_train_random (creates and saves new ai model, makes random decisions)
+
+    - filename: choose target TFLearn data saved to disk (default: "TronNN.tflearn")
+
+    - obstacles: add hazards in the game
+
+    - training_games: if one of the players selected ai_retrain or ai_train_random, this limits the number of automatic
+                      training games which are played. Select 0 if you do not want it to automatically play games.
+                      
+    - games_before_training: specify the number of games to play before training and flushing the data
+
+    - speed: choose the refresh rate. 10 is slow, 15 is normal, 60 is recommended for training
+    
 '''
 
 # ----------------------------- #
