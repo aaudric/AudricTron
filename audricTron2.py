@@ -338,7 +338,7 @@ def create_model():
     # Ajouter les couches fully_connected
     model.add(Flatten())
     model.add(Dense(connected_size, activation='elu'))
-    model.add(Dense(1, activation='linear'))
+    model.add(Dense(4, activation='linear'))
 
     # Compiler le modèle
     model.compile(optimizer=Adam(learning_rate=1e-2), loss=MeanSquaredError(), metrics=['mse'])
@@ -458,30 +458,36 @@ def predict_move(player):
                 p1_move_dir = 0
         else:
             adj_frame = frame / 800
-            x_input_temp = [-1, ob[0][0], ob[0][1], ob[0][2], dist, p1_angle, dist-prev_dist, adj_frame]
-            for index in range(visible_blocks):
+            x_input_temp = [-1, ob[0][0], ob[0][1], ob[0][2], dist, p1_angle, dist - prev_dist, adj_frame]
+            for index in range(80):
                 x_input_temp.append(sur_blocks[0][index])
-            x_input = np.array([x_input_temp]).reshape(-1, input_size, 1)
-            probabilities.append(model.predict(x_input))
+            x_input = np.array([x_input_temp]).reshape(-1, 88, 1)
+            predictions = model.predict(x_input).flatten()
+            probabilities.extend(predictions)
+            
             x_input_temp = [0, ob[0][0], ob[0][1], ob[0][2], dist, p1_angle, dist - prev_dist, adj_frame]
-            for index in range(visible_blocks):
+            for index in range(80):
                 x_input_temp.append(sur_blocks[0][index])
-            x_input = np.array([x_input_temp]).reshape(-1, input_size, 1)
-            probabilities.append(model.predict(x_input))
+            x_input = np.array([x_input_temp]).reshape(-1, 88, 1)
+            predictions = model.predict(x_input).flatten()
+            probabilities.extend(predictions)
+            
             x_input_temp = [1, ob[0][0], ob[0][1], ob[0][2], dist, p1_angle, dist - prev_dist, adj_frame]
-            for index in range(visible_blocks):
+            for index in range(80):
                 x_input_temp.append(sur_blocks[0][index])
-            x_input = np.array([x_input_temp]).reshape(-1, input_size, 1)
-            probabilities.append(model.predict(x_input))
+            x_input = np.array([x_input_temp]).reshape(-1, 88, 1)
+            predictions = model.predict(x_input).flatten()
+            probabilities.extend(predictions)
+            
             action = np.argmax(np.array(probabilities))
             if np.max(np.array(probabilities)) < 0:
                 action = randint(0, 2)
                 print("RANDOM ACTION TAKEN")
-            if probabilities[0] == probabilities[1] == probabilities[2]:
+            if probabilities[0:4] == probabilities[4:8] == probabilities[8:12]:
                 p1_move_dir = 0
-            elif action == 0:
+            elif action in [0, 4, 8]:  # Correspond à l'action -1
                 p1_move_dir = -1
-            elif action == 2:
+            elif action in [2, 6, 10]:  # Correspond à l'action 1
                 p1_move_dir = 1
             else:
                 p1_move_dir = 0
@@ -497,33 +503,40 @@ def predict_move(player):
                 p2_move_dir = 0
         else:
             adj_frame = frame / 800
-            x_input_temp = [-1, ob[1][0], ob[1][1], ob[1][2], dist, p2_angle, dist-prev_dist, adj_frame]
-            for index in range(visible_blocks):
+            x_input_temp = [-1, ob[1][0], ob[1][1], ob[1][2], dist, p2_angle, dist - prev_dist, adj_frame]
+            for index in range(80):
                 x_input_temp.append(sur_blocks[1][index])
-            x_input = np.array([x_input_temp]).reshape(-1, input_size, 1)
-            probabilities.append(model.predict(x_input))
+            x_input = np.array([x_input_temp]).reshape(-1, 88, 1)
+            predictions = model.predict(x_input).flatten()
+            probabilities.extend(predictions)
+            
             x_input_temp = [0, ob[1][0], ob[1][1], ob[1][2], dist, p2_angle, dist - prev_dist, adj_frame]
-            for index in range(visible_blocks):
+            for index in range(80):
                 x_input_temp.append(sur_blocks[1][index])
-            x_input = np.array([x_input_temp]).reshape(-1, input_size, 1)
-            probabilities.append(model.predict(x_input))
+            x_input = np.array([x_input_temp]).reshape(-1, 88, 1)
+            predictions = model.predict(x_input).flatten()
+            probabilities.extend(predictions)
+            
             x_input_temp = [1, ob[1][0], ob[1][1], ob[1][2], dist, p2_angle, dist - prev_dist, adj_frame]
-            for index in range(visible_blocks):
+            for index in range(80):
                 x_input_temp.append(sur_blocks[1][index])
-            x_input = np.array([x_input_temp]).reshape(-1, input_size, 1)
-            probabilities.append(model.predict(x_input))
+            x_input = np.array([x_input_temp]).reshape(-1, 88, 1)
+            predictions = model.predict(x_input).flatten()
+            probabilities.extend(predictions)
+            
             action = np.argmax(np.array(probabilities))
             if np.max(np.array(probabilities)) < 0:
                 action = randint(0, 2)
                 print("RANDOM ACTION TAKEN")
-            if probabilities[0] == probabilities[1] == probabilities[2]:
+            if probabilities[0:4] == probabilities[4:8] == probabilities[8:12]:
                 p2_move_dir = 0
-            if action == 0:
+            if action in [0, 4, 8]:  # Correspond à l'action -1
                 p2_move_dir = -1
-            elif action == 2:
+            elif action in [2, 6, 10]:  # Correspond à l'action 1
                 p2_move_dir = 1
             else:
                 p2_move_dir = 0
+
 
 
 # Move player randomly, with a certain number of retries
