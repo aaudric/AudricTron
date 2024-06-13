@@ -54,7 +54,7 @@ filename = "model_keras_audric_d.keras"
 
 num_obstacles = 10
 
-training_games = 500
+training_games = 250
 
 games_before_training = 3
 
