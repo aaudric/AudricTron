@@ -25,7 +25,7 @@ AudricTron is inspired by the classic Tron light cycle game and leverages AI to 
 ## Démo 
 
 <p align="center">
-  <img src="game_259.gif" alt="Gif of CarGame">
+  <img src="gif/game_259.gif" alt="Gif of CarGame">
 </p>
 
 ## Features
