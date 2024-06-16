@@ -6,11 +6,12 @@ from tensorflow.python.framework.ops import reset_default_graph
 
 import tensorflow as tf
 
-from tensorflow.keras.models import Sequential,load_model
+from tensorflow.keras.models import Sequential, load_model
 from tensorflow.keras.layers import Dense, Dropout, Input, Flatten
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.losses import MeanSquaredError
-
+import imageio  # Pour créer des GIFs
+import os
 '''
     File name: audricTron.py
     Author: Audric Girondin (https://github.com/aaudric), inspired from xenago (thanks to peterhogg https://github.com/peterhogg/tron)
@@ -62,7 +63,7 @@ speed = 60
 
 # ----------------------------- #
 
-# colour definitions
+# couleur definitions
 black = (0, 0, 0)
 white = (220, 220, 220)
 green = (0, 255, 0)
@@ -119,6 +120,8 @@ clock = pygame.time.Clock()
 # Initially model has not been trained (even if it has, this will build up some data before training)
 trained = False
 
+# Pour stocker les frames
+frames = []
 
 # build the grid-space to store information about game entities
 # 0: nothing
@@ -134,7 +137,6 @@ def build_grid():
     grid[p1x][p1y] = 1
     grid[p2x][p2y] = 2
     generate_obstacles()
-
 
 # Render the screen
 def render_game():
@@ -164,6 +166,9 @@ def render_game():
     # show frame
     pygame.display.flip()
 
+    # Capturer la frame
+    frame_data = pygame.surfarray.array3d(screen)
+    frames.append(frame_data)
 
 # Build the list of obstacles, including game walls and random blocks
 def generate_obstacles():
@@ -185,16 +190,17 @@ def generate_obstacles():
         if index[0] in [0, 39] or index[1] in [0, 39]:
             grid[index[0]][index[1]] = 5
 
-
 # Setup game session
 def reset():
     global game, first_run, p1x, p1y, p1_alive, p1_score, p2x, p2y, p2_alive, p2_score, p1_dir, p2_dir, \
         grid, training_input_data, training_feedback_data, dist, p1_angle, p2_angle, p1_move_dir, p2_move_dir, \
-        pWin, trained, frame
+        pWin, trained, frame, frames
     game += 1
     print('\nGame: ' + str(game))
     if game > 1:
         first_run = False
+        create_gif(frames, game)  # Créer un GIF à la fin de chaque partie
+        frames = []  # Réinitialiser les frames pour la prochaine partie
     # Variables for the players
     p1x = randint(7, 11)
     p2x = randint(26, 30)
@@ -214,6 +220,11 @@ def reset():
     trained = False
     # count the number of frames
     frame = 0
+
+# Fonction pour créer un GIF
+def create_gif(frames, game_number):
+    gif_filename = f"game_{game_number}.gif"
+    imageio.mimsave(gif_filename, frames, duration=0.1)  # Enregistrer les frames en GIF
 
 
 # Determine left and right directions from current player heading

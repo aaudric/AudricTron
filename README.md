@@ -8,7 +8,7 @@ AudricTron is a Pygame implementation of the classic Tron game, enhanced with AI
 - [AudricTron : An AI-Powered Tron Game](#audrictron--an-ai-powered-tron-game)
   - [Table of Contents](#table-of-contents)
   - [Introduction](#introduction)
-  - [Screenshot](#screenshot)
+  - [Démo](#démo)
   - [Features](#features)
   - [Game Options](#game-options)
     - [Control Modes](#control-modes)
@@ -22,8 +22,11 @@ AudricTron is a Pygame implementation of the classic Tron game, enhanced with AI
 
 AudricTron is inspired by the classic Tron light cycle game and leverages AI to control player movements. This project was created by Audric Girondin, with inspiration from xenago and contributions from peterhogg.
 
-## Screenshot
-![Screenshot of AudricTron](AudricTron.png)
+## Démo 
+
+<p align="center">
+  <img src="game_225.gif" alt="Gif of CarGame">
+</p>
 
 ## Features
 
