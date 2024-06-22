@@ -1,11 +1,11 @@
-# AudricTron : An AI-Powered Tron Game
+# AudricTron : An AI-Powered Tron Game 🏍️
 
 AudricTron is a Pygame implementation of the classic Tron game, enhanced with AI capabilities using Keras. This project allows players to control the game using keyboard inputs, random movements, or an AI that can be trained and retrained during gameplay.
 
 
 ## Table of Contents
 
-- [AudricTron : An AI-Powered Tron Game](#audrictron--an-ai-powered-tron-game)
+- [AudricTron : An AI-Powered Tron Game 🏍️](#audrictron--an-ai-powered-tron-game-️)
   - [Table of Contents](#table-of-contents)
   - [Introduction](#introduction)
   - [Démo](#démo)
